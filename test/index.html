@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+      .fluid {
+        width: 100%;
+        min-height: 600px;
+        background: #f2f2f2;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+      }
+
+      .nav {
+        width: 100%;
+        height: 60px;
+        background: black;
+        position: fixed;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .flex {
+        display: flex;
+      }
+
+      .cntr {
+        justify-content: center;
+        align-items: center;
+      }
+
+      .sideNav {
+        width: 300px;
+        height: 100%;
+        background: #f2f2f2;
+        border-right: 1px solid black;
+        position: fixed;
+        right: 0;
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import { Ripple } from "../index.js";
+      import { div, h1, h2, p, img, b, button } from "../src/jsml.js";
+      import { s } from "../node_modules/@mdshad/sel/index.js";
+
+      new Ripple(($) => {
+        const Nav = nav();
+        const render = () => {
+          return div(
+            {
+              class: "main fluid",
+            },
+            Nav.render()
+          );
+        };
+
+        return { render };
+      }, "#root");
+
+      function nav(PREVIOUS_STATE) {
+        return new Ripple(($) => {
+          $.SideBar = false;
+          const Sidebar = SideMenu($);
+          function openNav() {
+            $.SideBar = true;
+          }
+
+          const render = () => {
+            return div(
+              {
+                class: "nav flex cntr",
+              },
+              b(
+                {
+                  style: {
+                    color: "white",
+                    marginLeft: "auto",
+                    position: "relative",
+                    left: "20px",
+                  },
+                },
+                "REACTIVE APP"
+              ),
+              button(
+                { style: { marginLeft: "auto" }, onclick: openNav },
+                "Menu"
+              ),
+              $.SideBar && Sidebar.render()
+            );
+          };
+
+          return { render };
+        });
+      }
+
+      function SideMenu(PREVIOUS_STATE) {
+        return new Ripple(($) => {
+          $.show = true;
+          function hide() {
+            $.show = false;
+            PREVIOUS_STATE.SideBar = false;
+            $.show = true;
+          }
+          const render = () => {
+            return $.show && div({ class: "sideNav", onclick: hide });
+          };
+
+          return { render };
+        });
+      }
+    </script>
+  </body>
+</html>

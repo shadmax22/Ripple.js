@@ -1,6 +1,6 @@
 {
-  "name": "ripple",
-  "version": "1.0.0",
+  "name": "@mdshad/ripple",
+  "version": "1.0.1",
   "description": "Jquery Replacement",
   "main": "index.js",
   "scripts": {
@@ -10,10 +10,16 @@
     "type": "git",
     "url": "git+ssh://git@github.com/shadmax22/Ripple.js.git"
   },
-  "author": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "MdShad",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/shadmax22/Ripple.js/issues"
   },
-  "homepage": "https://github.com/shadmax22/Ripple.js#readme"
+  "homepage": "https://github.com/shadmax22/Ripple.js#readme",
+  "dependencies": {
+    "@mdshad/sel": "^1.0.1"
+  }
 }
