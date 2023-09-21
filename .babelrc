@@ -1,0 +1,11 @@
+{
+  "presets": ["@babel/preset-react"],
+  "plugins": [
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "jsml" // Replace with your custom function name
+      }
+    ]
+  ]
+}

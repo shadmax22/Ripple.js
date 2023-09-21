@@ -4,7 +4,10 @@
   "description": "Jquery Replacement",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack serve --open",
+    "getJSX": "babel test/index.jsx -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-build": "npx babel ./test/index.jsx --out-file ./dist/transpiled-file.js "
   },
   "repository": {
     "type": "git",
@@ -20,6 +23,17 @@
   },
   "homepage": "https://github.com/shadmax22/Ripple.js#readme",
   "dependencies": {
+    "@babel/cli": "^7.22.15",
     "@mdshad/sel": "^1.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.20",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.15",
+    "babel-loader": "^9.1.3",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }
