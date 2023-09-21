@@ -1,4 +1,7 @@
-function jsml(el, attribute, html) {
+function jsml(el, attribute, ...html) {
+  if (typeof el == "function") {
+    return el(attribute);
+  }
   const e = document.createElement(el);
   const Fun = {
     id: (v) => {
@@ -20,27 +23,35 @@ function jsml(el, attribute, html) {
       e.setAttribute(k, v);
     },
   };
-
-  switch (true) {
-    case attribute instanceof Element:
-      e.appendChild(attribute);
-      break;
-
-    case typeof attribute == "object":
-      for (let key of Object.keys(attribute)) {
-        if (typeof Fun[key] === "function") {
-          Fun[key](attribute[key]);
-        } else {
-          Fun["attr"](key, attribute[key]);
-        }
+  if (attribute != null) {
+    for (let key of Object.keys(attribute)) {
+      if (typeof Fun[key] === "function") {
+        Fun[key](attribute[key]);
+      } else {
+        Fun["attr"](key, attribute[key]);
       }
-      break;
-
-    default:
-      e.innerText = attribute;
-
-      break;
+    }
   }
+  // switch (true) {
+  //   case attribute instanceof Element:
+  //     e.appendChild(attribute);
+  //     break;
+
+  //   case typeof attribute == "object":
+  //     for (let key of Object.keys(attribute)) {
+  //       if (typeof Fun[key] === "function") {
+  //         Fun[key](attribute[key]);
+  //       } else {
+  //         Fun["attr"](key, attribute[key]);
+  //       }
+  //     }
+  //     break;
+
+  //   default:
+  //     e.innerText = attribute;
+
+  //     break;
+  // }
 
   for (let i of html) {
     const TypeOf = typeof i;
@@ -57,6 +68,8 @@ function jsml(el, attribute, html) {
   return e;
 }
 
+export { jsml };
+/*
 function a(attribute, ...html) {
   return jsml("a", attribute, html);
 }
@@ -555,3 +568,6 @@ export {
   video,
   wbr,
 };
+
+
+*/
