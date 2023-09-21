@@ -8,41 +8,39 @@
       * {
         font-family: sans-serif;
       }
-      .fluid {
+      .main {
         width: 100%;
-        min-height: 600px;
-        background: #f2f2f2;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
+        height: auto;
       }
 
-      .nav {
+      .fw {
         width: 100%;
-        height: 60px;
-        background: black;
-        position: fixed;
-        padding: 10px;
+        padding: 8px;
         box-sizing: border-box;
-      }
-      .flex {
         display: flex;
       }
 
-      .cntr {
-        justify-content: center;
-        align-items: center;
+      .col {
+        flex-direction: column;
+      }
+      .nav {
+        width: 100%;
+        height: 100px;
+        background-color: black;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        color: white;
+        font-family: sans-serif;
+        font-size: 20px;
+        font-weight: bold;
       }
 
-      .sideNav {
-        width: 300px;
-        height: 100%;
-        background: #f2f2f2;
-        border-right: 1px solid black;
-        position: fixed;
-        right: 0;
-        top: 0;
+      .cntr {
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     </style>
   </head>
@@ -50,76 +48,75 @@
     <div id="root"></div>
     <script type="module">
       import { Ripple } from "../index.js";
-      import { div, h1, h2, p, img, b, button } from "../src/jsml.js";
+      import { jsml } from "../src/jsml.js";
       import { s } from "../node_modules/@mdshad/sel/index.js";
 
       new Ripple(($) => {
-        const Nav = nav();
-        const render = () => {
-          return div(
+        $.Ri.Nav = Nav.props($);
+        $.render = () => {
+          return jsml(
+            "div",
             {
               class: "main fluid",
             },
-            Nav.render()
+            jsml($.Ri.Nav, null)
           );
         };
-
-        return { render };
       }, "#root");
+      function Nav($, PREVIOUS_STATE) {
+        $.navStyle = {
+          height: "100px",
+          width: "100%",
+        };
+        $.Ri.title = title;
 
-      function nav(PREVIOUS_STATE) {
-        return new Ripple(($) => {
-          $.SideBar = false;
-          const Sidebar = SideMenu($);
-          function openNav() {
-            $.SideBar = true;
-          }
-
-          const render = () => {
-            return div(
+        let Width = 400;
+        $.render = () => {
+          return jsml(
+            "div",
+            null,
+            jsml(
+              "div",
               {
-                class: "nav flex cntr",
+                class: "nav cntr",
+                style: $.navStyle,
               },
-              b(
+              jsml($.Ri.title, null),
+              jsml(
+                "button",
                 {
                   style: {
-                    color: "white",
                     marginLeft: "auto",
-                    position: "relative",
-                    left: "20px",
+                  },
+                  onclick: () => {
+                    Width += 100;
+                    $.navStyle = {
+                      width: Width + "px",
+                      height: "300px",
+                      margin: "auto",
+                      bottom: "0",
+                    };
                   },
                 },
-                "REACTIVE APP"
-              ),
-              button(
-                { style: { marginLeft: "auto" }, onclick: openNav },
-                "Menu"
-              ),
-              $.SideBar && Sidebar.render()
-            );
-          };
-
-          return { render };
-        });
+                "OPEN MODAL"
+              )
+            )
+          );
+        };
       }
-
-      function SideMenu(PREVIOUS_STATE) {
-        return new Ripple(($) => {
-          $.show = true;
-          function hide() {
-            $.show = false;
-            PREVIOUS_STATE.SideBar = false;
-            $.show = true;
-          }
-          const render = () => {
-            return $.show && div({ class: "sideNav", onclick: hide });
-          };
-
-          return { render };
-        });
+      function title($) {
+        $.render = () => {
+          return jsml(
+            "b",
+            {
+              style: {
+                marginLeft: "auto",
+              },
+            },
+            "TITLE"
+          );
+        };
       }
-
-      /// -- TEST
     </script>
   </body>
 </html>
